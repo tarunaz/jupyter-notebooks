@@ -41,7 +41,7 @@ Building the Minimal Notebook
 To build the minimal Jupyter notebook run the command:
 
 ```
-oc create -f https://raw.githubusercontent.com/jupyter-on-openshift/jupyter-notebooks/master/images.json
+oc create -f https://raw.githubusercontent.com/tarunaz/jupyter-notebooks/master/images.json
 ```
 
 This will create a build configuration in your OpenShift project to build the minimal Jupyter notebook image using the Python 3.5 S2I builder. You can watch the progress of the build by running:
@@ -103,7 +103,7 @@ To replicate what loading the ``images.json`` file did in creating builds for ``
 ```
 oc new-build --name my-scipy-notebook \
   --image-stream s2i-minimal-notebook:3.5 \
-  --code https://github.com/jupyter-on-openshift/jupyter-notebooks \
+  --code https://github.com/tarunaz/jupyter-notebooks \
   --context-dir scipy-notebook
 ```
 
@@ -172,7 +172,7 @@ Using the OpenShift Web Console
 To make it easier to build and deploy notebooks images from the web console, templates are provided. To load the templates run:
 
 ```
-oc create -f https://raw.githubusercontent.com/jupyter-on-openshift/jupyter-notebooks/master/templates.json
+oc create -f https://raw.githubusercontent.com/tarunaz/jupyter-notebooks/master/templates.json
 ```
 
 From the _Service Catalog_ filter on _jupyter_.
