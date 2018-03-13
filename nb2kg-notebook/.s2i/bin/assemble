@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -x
+
+set -eo pipefail
+
+# Execute original assemble script.
+
+/opt/app-root/builder/assemble
+
+# Activate nb2g extension.
+
+jupyter serverextension enable --py nb2kg --sys-prefix
