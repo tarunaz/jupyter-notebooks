@@ -187,68 +187,6 @@
                     }
                 }
             }
-        },
-        {
-            "kind": "ImageStream",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "s2i-nb2kg-notebook",
-                "labels": {
-                    "build": "s2i-nb2kg-notebook"
-                }
-            },
-            "spec": {
-                "lookupPolicy": {
-                    "local": true
-                }
-            }
-        },
-        {
-            "kind": "BuildConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "s2i-nb2kg-notebook",
-                "labels": {
-                    "build": "s2i-nb2kg-notebook"
-                }
-            },
-            "spec": {
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange"
-                    }
-                ],
-                "source": {
-                    "type": "Git",
-                    "git": {
-                        "uri": "https://github.com/tarunaz/jupyter-notebooks"
-                    },
-                    "contextDir": "nb2kg-notebook"
-                },
-                "strategy": {
-                    "type": "Source",
-                    "sourceStrategy": {
-                        "from": {
-                            "kind": "ImageStreamTag",
-                            "name": "s2i-minimal-notebook:3.5"
-                        }
-                    }
-                },
-                "output": {
-                    "to": {
-                        "kind": "ImageStreamTag",
-                        "name": "s2i-nb2kg-notebook:3.5"
-                    }
-                },
-                "resources": {
-                    "limits": {
-                        "memory": "512Mi"
-                    }
-                }
-            }
         }
     ]
 }
