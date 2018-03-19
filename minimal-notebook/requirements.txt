@@ -3,5 +3,3 @@ jupyterhub==0.8.*
 jupyterlab==0.31.*
 #jupyter_kernel_gateway==2.0.*
 git+https://github.com/jupyter-on-openshift/kernel_gateway.git#egg=jupyter_kernel_gateway
-#nb2kg
-git+https://github.com/tarunaz/nb2kg.git#egg=nb2kg

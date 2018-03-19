@@ -18,9 +18,6 @@ pip install 'mod_wsgi==4.6.2'
 
 pip install -r /tmp/src/requirements.txt
 
-# Enable nb2kg server extension
-jupyter serverextension enable --py nb2kg --sys-prefix
-
 # Activate JupyterHub extension for JupyterLab.
 
 if [[ ! -z "${JUPYTER_INSTALL_LAB}" ]]; then
