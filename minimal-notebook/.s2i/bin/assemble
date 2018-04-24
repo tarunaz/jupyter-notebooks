@@ -27,6 +27,10 @@ if [[ ! -z "${JUPYTER_INSTALL_LAB}" ]]; then
 fi
 
 # Copy into place default config files for Jupyter and Apache webdav.
+mkdir -p /opt/app-root/etc
+mkdir -p /opt/app-root/builder
+mkdir -p /opt/app-root/bin
+mkdir -p /opt/app-root/data
 
 cp /tmp/src/jupyter_notebook_config.py /opt/app-root/etc/
 cp /tmp/src/jupyter_kernel_gateway_config.py /opt/app-root/etc/
