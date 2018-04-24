@@ -7,16 +7,16 @@ set -eo pipefail
 ########################################################################
 
 # Ensure we are using the latest pip and wheel packages.
-
-pip install -U pip setuptools wheel
+CONDA_DIR=/opt/conda/bin
+$CONDA_DIR/pip install -U pip setuptools wheel
 
 # Install mod_wsgi for use in optional webdav support.
 
-pip install 'mod_wsgi==4.6.2'
+$CONDA_DIR/pip install 'mod_wsgi==4.6.2'
 
 # Install base packages needed for running Jupyter Notebooks. 
 
-pip install -r /tmp/src/requirements.txt
+$CONDA_DIR/pip install -r /tmp/src/requirements.txt
 
 # Activate JupyterHub extension for JupyterLab.
 
@@ -96,7 +96,7 @@ rm -f /tmp/get-pip.py
 
 source /opt/app-root/supervisor/bin/activate
 
-pip install --no-cache-dir 'supervisor<3.4.0'
+$CONDA_DIR/pip install --no-cache-dir 'supervisor<3.4.0'
 
 # Link supervisorctl into /opt/app-root/bin so in PATH.
 
