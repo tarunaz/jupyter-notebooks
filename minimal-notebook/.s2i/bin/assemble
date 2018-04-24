@@ -29,8 +29,6 @@ fi
 # Copy into place default config files for Jupyter and Apache webdav.
 mkdir -p /opt/app-root/etc
 mkdir -p /opt/app-root/builder
-mkdir -p /opt/app-root/bin
-mkdir -p /opt/app-root/data
 
 cp /tmp/src/jupyter_notebook_config.py /opt/app-root/etc/
 cp /tmp/src/jupyter_kernel_gateway_config.py /opt/app-root/etc/
@@ -93,19 +91,19 @@ rm -f /tmp/get-pip.py
 
 # Create a virtual environment for Python 2.7.
 
-/opt/app-root/.local/bin/virtualenv /opt/app-root/supervisor
+#/opt/app-root/.local/bin/virtualenv /opt/app-root/supervisor
 
 # Install supervisor into the virtual environment.
 
-source /opt/app-root/supervisor/bin/activate
+#source /opt/app-root/supervisor/bin/activate
 
-$CONDA_DIR/pip install --no-cache-dir 'supervisor<3.4.0'
+#$CONDA_DIR/pip install --no-cache-dir 'supervisor<3.4.0'
 
 # Link supervisorctl into /opt/app-root/bin so in PATH.
 
 mkdir -p /opt/app-root/bin
 
-ln -s /opt/app-root/supervisor/bin/supervisorctl /opt/app-root/bin/supervisorctl
+#ln -s /opt/app-root/supervisor/bin/supervisorctl /opt/app-root/bin/supervisorctl
 
 # Remove the per user Python area and cache as shouldn't need them now.
 
@@ -113,12 +111,13 @@ rm -rf /opt/app-root/.local /opt/app-root/.cache
 
 # Generate default supervisord.conf file.
 
-echo_supervisord_conf | \
-    sed -e 's%^logfile=/tmp/supervisord.log%logfile=/dev/fd/1%' \
-        -e 's%^logfile_maxbytes=50MB%logfile_maxbytes=0%' > \
-        /opt/app-root/supervisor/supervisord.conf
+#echo_supervisord_conf | \
+ #   sed -e 's%^logfile=/tmp/supervisord.log%logfile=/dev/fd/1%' \
+ #       -e 's%^logfile_maxbytes=50MB%logfile_maxbytes=0%' > \
+ #       /opt/app-root/supervisor/supervisord.conf
+ #
 
-cat >> /opt/app-root/supervisor/supervisord.conf << EOF
+#cat >> /opt/app-root/supervisor/supervisord.conf << EOF
 
 [program:notebook]
 command=start-notebook.sh
