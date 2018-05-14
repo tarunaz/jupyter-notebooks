@@ -7,29 +7,27 @@ set -eo pipefail
 ########################################################################
 
 # Ensure we are using the latest pip and wheel packages.
-CONDA_DIR=/opt/conda/bin
+
+pip install -U pip setuptools wheel
 
 # Install mod_wsgi for use in optional webdav support.
 
-#$CONDA_DIR/pip install 'mod_wsgi==4.6.2'
+pip install 'mod_wsgi==4.6.2'
 
 # Install base packages needed for running Jupyter Notebooks. 
 
-$CONDA_DIR/pip install -r /tmp/src/requirements.txt
+pip install -r /tmp/src/requirements.txt
 
 # Activate JupyterHub extension for JupyterLab.
 
 if [[ ! -z "${JUPYTER_INSTALL_LAB}" ]]; then
-    jupyter labextension install @jupyterlab/hub-extension@^0.8.0
+    jupyter labextension install @jupyterlab/hub-extension@^0.8.1
     npm cache clean
     rm -rf $HOME/.cache/yarn
     rm -rf $HOME/.node-gyp
 fi
 
 # Copy into place default config files for Jupyter and Apache webdav.
-mkdir -p /opt/app-root/etc
-mkdir -p /opt/app-root/builder
-mkdir -p /opt/app-root/bin
 
 cp /tmp/src/jupyter_notebook_config.py /opt/app-root/etc/
 cp /tmp/src/jupyter_kernel_gateway_config.py /opt/app-root/etc/
@@ -92,19 +90,19 @@ rm -f /tmp/get-pip.py
 
 # Create a virtual environment for Python 2.7.
 
-#/opt/app-root/.local/bin/virtualenv /opt/app-root/supervisor
+/opt/app-root/.local/bin/virtualenv /opt/app-root/supervisor
 
 # Install supervisor into the virtual environment.
 
-#source /opt/app-root/supervisor/bin/activate
+source /opt/app-root/supervisor/bin/activate
 
-#$CONDA_DIR/pip install --no-cache-dir 'supervisor<3.4.0'
+pip install --no-cache-dir 'supervisor<3.4.0'
 
 # Link supervisorctl into /opt/app-root/bin so in PATH.
 
 mkdir -p /opt/app-root/bin
 
-#ln -s /opt/app-root/supervisor/bin/supervisorctl /opt/app-root/bin/supervisorctl
+ln -s /opt/app-root/supervisor/bin/supervisorctl /opt/app-root/bin/supervisorctl
 
 # Remove the per user Python area and cache as shouldn't need them now.
 
@@ -112,13 +110,12 @@ rm -rf /opt/app-root/.local /opt/app-root/.cache
 
 # Generate default supervisord.conf file.
 
-#echo_supervisord_conf | \
- #   sed -e 's%^logfile=/tmp/supervisord.log%logfile=/dev/fd/1%' \
- #       -e 's%^logfile_maxbytes=50MB%logfile_maxbytes=0%' > \
- #       /opt/app-root/supervisor/supervisord.conf
- #
+echo_supervisord_conf | \
+    sed -e 's%^logfile=/tmp/supervisord.log%logfile=/dev/fd/1%' \
+        -e 's%^logfile_maxbytes=50MB%logfile_maxbytes=0%' > \
+        /opt/app-root/supervisor/supervisord.conf
 
-#cat >> /opt/app-root/supervisor/supervisord.conf << EOF
+cat >> /opt/app-root/supervisor/supervisord.conf << EOF
 
 [program:notebook]
 command=start-notebook.sh
@@ -135,6 +132,9 @@ stdout_logfile=/proc/1/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
 autostart=%(ENV_JUPYTER_ENABLE_WEBDAV)s
+
+[include]
+files = /opt/app-root/src/.supervisord/*.conf
 EOF
 
 ########################################################################
